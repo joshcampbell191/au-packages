@@ -14,7 +14,7 @@ Remove-Item "$toolsPath\xrmtoolbox" -Recurse -Force -ea 0
 $packageArgs = @{
   PackageName    = $packageName
   FileFullPath64 = Get-Item $toolsPath\XrmToolBox.zip
-  Destination    = $toolsPath
+  Destination    = $installDir
 }
 Get-ChocolateyUnzip @packageArgs
 if ($installDir -ne $toolsPath) { Install-ChocolateyPath $installDir }
