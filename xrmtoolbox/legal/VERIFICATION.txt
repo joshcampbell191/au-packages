@@ -4,11 +4,11 @@ Verification is intended to assist the Chocolatey moderators and community
 in verifying that this package's contents are trustworthy.
 
 The embedded software have been downloaded from the listed download
-location on <https://github.com/mscrmtools/xrmtoolbox/releases/tag/v1.2021.4.46>
+location on <https://github.com/mscrmtools/xrmtoolbox/releases/tag/v1.2021.4.47>
 and can be verified by doing the following:
 
 1. Download the following:
-  software: <https://github.com/MscrmTools/XrmToolBox/releases/download/v1.2021.4.46/XrmToolbox.zip>
+  software: <https://github.com/MscrmTools/XrmToolBox/releases/download/v1.2021.4.47/XrmToolbox.zip>
 
 2. Get the checksum using one of the following methods:
   - Using PowerShell function 'Get-FileHash'
@@ -17,6 +17,6 @@ and can be verified by doing the following:
 
 3. The checksums should match the following:
   checksum type: sha256
-  checksum: DD1D68D808CE257DE8BED15655312DA5ACEA9C8755FC85546696F365B382D1D0
+  checksum: 013BA03F0B62070B16F0945F3E8C8C0E6AF60C122A4051161EFF3D12D33A8470
 
 The file 'LICENSE.txt' has been obtained from <https://github.com/MscrmTools/XrmToolBox/blob/c16eb792269ff29ba0a45328c7c6683fd16c4e68/LICENSE.txt>
