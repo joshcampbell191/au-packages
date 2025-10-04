@@ -29,6 +29,7 @@ function global:au_GetLatest {
   $re = 'XrmToolbox\.zip$'
   $url = $download_page.links | ? href -match $re | % href | Select-Object -First 1
 
+  Write-Host "URL: $url"
   $version = (Split-Path ( Split-Path $url ) -Leaf).Substring(1)
 
   return @{
