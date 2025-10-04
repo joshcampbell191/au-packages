@@ -31,7 +31,6 @@ function global:au_GetLatest {
 
   $version = (Split-Path ( Split-Path $url ) -Leaf).Substring(1)
 
-  return $null;
   return @{
     Version     = $version
     URL64       = $domain + $url
