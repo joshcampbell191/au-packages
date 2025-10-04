@@ -93,7 +93,9 @@ $Options = [ordered]@{
 
     ForcedPackages = $ForcedPackages -split ' '
     BeforeEach = {
-        param($PackageName, $Options )
+        param($PackageName, $Options)
+
+        Write-Host "test"
 
         $pattern = "^${PackageName}(?:\\(?<stream>[^:]+))?(?:\:(?<version>.+))?$"
         $p = $Options.ForcedPackages | ? { $_ -match $pattern }
