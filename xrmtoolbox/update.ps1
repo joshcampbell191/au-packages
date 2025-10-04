@@ -24,6 +24,7 @@ function global:au_SearchReplace {
 function global:au_BeforeUpdate { Get-RemoteFiles -Purge -NoSuffix }
 
 function global:au_GetLatest {
+  Write-Host "RELEASES: $releases"
   $download_page = Invoke-WebRequest -Uri $releases -UseBasicParsing
 
   $re = 'XrmToolbox\.zip$'
