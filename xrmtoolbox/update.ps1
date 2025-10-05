@@ -4,7 +4,9 @@ param([switch] $Force)
 Import-Module AU
 
 $domain   = 'https://github.com'
-$releases = "$domain/mscrmtools/xrmtoolbox/releases/latest"
+$releases = "$domain/mscrmtools/xrmtoolbox/releases"
+$latestRelease = "$releases/latest"
+$expandedAssets = "$releases/expanded_assets"
 
 function global:au_SearchReplace {
   @{
@@ -24,17 +26,20 @@ function global:au_SearchReplace {
 function global:au_BeforeUpdate { Get-RemoteFiles -Purge -NoSuffix }
 
 function global:au_GetLatest {
-  $download_page = Invoke-WebRequest -Uri $releases -UseBasicParsing
+  $latestRelease = Invoke-WebRequest -Uri $latestRelease -Headers @{ "Accept" = "application/json" } | ConvertFrom-Json
+
+  $tagName = $latestRelease.tag_name
+  $download_page = Invoke-WebRequest -Uri "$expandedAssets/$tagName" -UseBasicParsing
 
   $re = 'XrmToolbox\.zip$'
-  $url = $download_page.links | ? href -match $re | % href | Select-Object -First 1
+  $url = $download_page.Links | ? href -Match $re | Select -First 1 -Expand href
 
-  $version = (Split-Path ( Split-Path $url ) -Leaf).Substring(1)
+  $version = $tagName.Substring(1)
 
   return @{
-    Version     = $version
-    URL64       = $domain + $url
-    ReleaseURL  = "$domain/mscrmtools/xrmtoolbox/releases/tag/v${version}"
+    Version    = $version
+    URL64      = $domain + $url
+    ReleaseURL = "$releases/tag/$tagName"
   }
 }
 
