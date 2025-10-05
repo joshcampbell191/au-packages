@@ -3,7 +3,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>xrmtoolbox</id>
-    <version>1.2021.9.52</version>
+    <version>1.2025.7.71</version>
     <packageSourceUrl>https://github.com/joshcampbell191/au-packages/tree/master/xrmtoolbox</packageSourceUrl>
     <owners>Joshua Campbell</owners>
     <title>XrmToolBox</title>
@@ -19,7 +19,7 @@
     <tags>xrmtoolbox dynamics powerapps cds crm</tags>
     <summary>XrmToolBox is a Windows application that connects to the Common Data Service for Apps (CDS).</summary>
     <description>XrmToolBox provides tools to ease customization, configuration and operation tasks for anything built on CDS, including Dynamics 365 CE (formerly CRM) and model-driven PowerApps.</description>
-    <releaseNotes>https://github.com/mscrmtools/xrmtoolbox/releases/tag/v1.2021.9.52</releaseNotes>
+    <releaseNotes>https://github.com/mscrmtools/xrmtoolbox/releases/tag/v1.2025.7.71</releaseNotes>
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
