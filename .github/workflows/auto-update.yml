@@ -32,6 +32,7 @@ on:
 jobs:
   auto-update:
     runs-on: windows-latest
+    environment: Chocolatey
     steps:
     # Checkout Repository
     - uses: actions/checkout@v3
