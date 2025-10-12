@@ -7,27 +7,6 @@ on:
   schedule:
     - cron: '5 */8 * * *' # every 8 hours at 5 minutes past the hour
   workflow_dispatch:
-    inputs:
-      auVersion:
-        description: 'AU version to use (leave empty to use latest, or specify branch name to use development version from Github)'
-        required: false
-        default: ''
-        type: string
-      auPush:
-        description: 'Set to true to push updated packages'
-        required: false
-        default: true
-        type: boolean
-      auTestGroups:
-        description: 'Set to 1 to test all packages, or N to split testing into N groups'
-        required: false
-        default: 1
-        type: number
-      forcedPackages:
-        description: 'Space-separated list of packages to force update (e.g. package1 package2)'
-        required: false
-        default: ''
-        type: string
 
 jobs:
   auto-update:
@@ -64,9 +43,9 @@ jobs:
         GH_FORCED_BUILD: ${{ github.event_name == 'workflow_dispatch' }}
         GH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         
-        AU_VERSION: ${{ github.event.inputs.auVersion }}
-        AU_PUSH: ${{ github.event.inputs.auPush }}
-        AU_TEST_GROUPS: ${{ github.event.inputs.auTestGroups }}
+        AU_VERSION: ''
+        AU_PUSH: false
+        AU_TEST_GROUPS: 1
 
         GH_API_KEY: ${{ secrets.GH_API_KEY }}
         GH_USER_REPOSITORY: ${{ github.repository }}
