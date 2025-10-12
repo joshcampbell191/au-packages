@@ -14,8 +14,8 @@ jobs:
     environment: Chocolatey
     steps:
     # Checkout Repository
-    - uses: actions/checkout@v3
-      name: Checkout Repository
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
     # Initialize
     - name: Initialize
@@ -85,3 +85,13 @@ jobs:
 
         ./update_all.ps1 -ForcedPackages $forced
         7z a au_temp.zip $Env:TEMP\chocolatey\au\*
+
+    # Upload Artifacts
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          update_info.xml
+          Update-AUPackages.md
+          au_temp.zip
