@@ -26,6 +26,7 @@ jobs:
 
     # Install
     - name: Install
+      shell: powershell
       run: |
         Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version | fl Caption, OSArchitecture, Version
         $PSVersionTable
