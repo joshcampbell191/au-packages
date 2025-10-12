@@ -45,7 +45,7 @@ jobs:
         GH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         
         AU_VERSION: ''
-        AU_PUSH: false
+        AU_PUSH: true
         AU_TEST_GROUPS: 1
 
         GH_API_KEY: ${{ secrets.GH_API_KEY }}
@@ -53,13 +53,13 @@ jobs:
 
         API_KEY: ${{ secrets.API_KEY }}
 
-        GIST_ID: ${{ vars.GIST_ID }}
-        GIST_ID_TEST: ${{ vars.GIST_ID_TEST }}
+        GIST_ID: 1bef29d6b69a03cb02702cbfb67e106e
+        GIST_ID_TEST: 8aaa677a197c99e5eca431489a964ace
       shell: powershell
       run: |
         $ErrorActionPreference = 'Continue'
 
-        if ($Env:GH_REPOSITORY_NAME  -like '*test*') { ./test_all.ps1 "random $Env:au_test_groups"; return }
+        if ($Env:GH_REPOSITORY_NAME -like '*test*') { ./test_all.ps1 "random $Env:au_test_groups"; return }
 
         if ( ($Env:GH_SCHEDULED_BUILD -ne 'true') -and ($Env:GH_FORCED_BUILD -ne 'true') ) {
             switch -regex ($Env:GH_COMMIT_MESSAGE)
