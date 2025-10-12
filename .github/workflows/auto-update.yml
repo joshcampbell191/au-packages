@@ -54,6 +54,7 @@ jobs:
 
         GIST_ID: ${{ vars.GIST_ID }}
         GIST_ID_TEST: ${{ vars.GIST_ID_TEST }}
+      shell: powershell
       run: |
         $ErrorActionPreference = 'Continue'
 
