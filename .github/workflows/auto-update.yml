@@ -48,7 +48,7 @@ jobs:
         AU_TEST_GROUPS: 1
 
         GH_API_KEY: ${{ secrets.GH_API_KEY }}
-        GH_USER_REPOSITORY: ${{ github.repository }}
+        GH_USER_REPO: ${{ github.repository }}
 
         API_KEY: ${{ secrets.API_KEY }}
 
