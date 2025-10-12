@@ -1,0 +1,52 @@
+name: Auto Update
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '5 */8 * * *' # every 8 hours at 5 minutes past the hour
+  workflow_dispatch:
+    inputs:
+      au_version:
+        description: 'AU version to use (leave empty to use latest, or specify branch name to use development version from Github)'
+        required: false
+        default: ''
+        type: string
+      au_push:
+        description: 'Set to true to push updated packages'
+        required: false
+        default: true
+        type: boolean
+      au_test_groups:
+        description: 'Set to 1 to test all packages, or N to split testing into N groups'
+        required: false
+        default: 1
+        type: number
+      forcedPackages:
+        description: 'Space-separated list of packages to force update (e.g. package1 package2)'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  auto-update:
+    runs-on: windows-latest
+    steps:
+    # Initialize
+    - name: Initialize
+      run: |
+        git config --global user.email "chocolatey@realdimensions.net"
+        git config --global user.name "Chocolatey"
+        git config --global core.safecrlf false
+
+    # Install
+    - name: Install
+      run: |
+        Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version | fl Caption, OSArchitecture, Version
+        $PSVersionTable
+        git --version
+        choco --version
+
+        git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
+        . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
