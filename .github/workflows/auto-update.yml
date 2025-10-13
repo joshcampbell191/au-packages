@@ -14,10 +14,10 @@ on:
         type: number
         default: 1
       au_push:
-        description: 'Whether to push changes back to the repository (default: false)'
+        description: 'Whether to push changes back to the repository (default: true)'
         required: false
         type: boolean
-        default: false
+        default: true
       scheduled_build:
         description: 'Whether this is a scheduled build (default: false)'
         required: false
