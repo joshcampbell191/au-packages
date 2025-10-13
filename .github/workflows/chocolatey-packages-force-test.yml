@@ -10,8 +10,6 @@ jobs:
     # Auto Update
     uses: ./.github/workflows/auto-update.yml
     with:
-      au_push: false
-
       scheduled_build: ${{ github.event_name == 'schedule' }}
       forced_build: ${{ github.event_name == 'workflow_dispatch' }}
       re_build: ${{ github.run_attempt > 1 }}
