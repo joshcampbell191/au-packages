@@ -1,4 +1,4 @@
-name: Auto Update Force Test
+name: Chocolatey Packages Force Test
 
 on:
   schedule:
