@@ -90,8 +90,18 @@ jobs:
         ./update_all.ps1 -ForcedPackages $forced
         7z a au_temp.zip $Env:TEMP\chocolatey\au\*
 
-    # Upload Artifacts
-    - name: Upload Artifacts
+    # Upload Build Artifacts
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          update_info.xml
+          Update-AUPackages.md
+          au_temp.zip
+
+    # Upload Test Artifacts
+    - name: Upload Test Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: test-artifacts
