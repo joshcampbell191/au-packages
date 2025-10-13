@@ -95,8 +95,6 @@ $Options = [ordered]@{
     BeforeEach = {
         param($PackageName, $Options)
 
-        Write-Host "test"
-
         $pattern = "^${PackageName}(?:\\(?<stream>[^:]+))?(?:\:(?<version>.+))?$"
         $p = $Options.ForcedPackages | ? { $_ -match $pattern }
         if (!$p) { return }
