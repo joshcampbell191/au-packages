@@ -10,19 +10,25 @@ on:
 
 jobs:
   auto-update:
-    uses: ./.github/workflows/templates/auto-update.yml
-    with:
-      au_push: true
+    steps:    
+      # Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      scheduled_build: ${{ github.event_name == 'schedule' }}
-      forced_build: ${{ github.event_name == 'workflow_dispatch' }}
-      re_build: ${{ github.run_attempt > 1 }}
-      
-      commit_message: ${{ github.event.head_commit.message }}
-      user_repository: ${{ github.repository }}
+      # Auto Update
+      - uses: ./.github/workflows/templates/auto-update.yml
+        with:
+          au_push: true
 
-      gist_id: 1bef29d6b69a03cb02702cbfb67e106e
-      gist_id_test: 8aaa677a197c99e5eca431489a964ace
-    secrets:
-      personal_access_token: ${{ secrets.GH_API_KEY }}
-      chocolatey_api_key: ${{ secrets.API_KEY }}
+          scheduled_build: ${{ github.event_name == 'schedule' }}
+          forced_build: ${{ github.event_name == 'workflow_dispatch' }}
+          re_build: ${{ github.run_attempt > 1 }}
+          
+          commit_message: ${{ github.event.head_commit.message }}
+          user_repository: ${{ github.repository }}
+
+          gist_id: 1bef29d6b69a03cb02702cbfb67e106e
+          gist_id_test: 8aaa677a197c99e5eca431489a964ace
+        secrets:
+          personal_access_token: ${{ secrets.GH_API_KEY }}
+          chocolatey_api_key: ${{ secrets.API_KEY }}
