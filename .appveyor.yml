@@ -20,7 +20,7 @@ environment:
   # Github token to commit pushed packages to repository
   gh_user_repo: joshcampbell191/chocolatey-packages
   gh_api_key:
-    secure: blIZNBHW6erTFjsOq3iJb2hiUu074xX05EwM6eZAqRHwwRkKhlFvmUssGfDy1WwX #https://ci.appveyor.com/tools/encrypt
+    secure: 5kSyXVeUvhmZZ7QAsQ/3KGIwidOzmVdA3FXWfo66eojdujK1MczP4lombYVPc2PE #https://ci.appveyor.com/tools/encrypt
 
 
   # Mail credentials - for error notifications

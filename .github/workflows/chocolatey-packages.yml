@@ -10,8 +10,6 @@ on:
 
 jobs:
   auto-update:
-    environment: Chocolatey
-    
     # Auto Update
     uses: ./.github/workflows/auto-update.yml
     with:
