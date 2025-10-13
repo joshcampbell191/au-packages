@@ -42,6 +42,7 @@ jobs:
         GH_REPOSITORY_NAME: ${{ github.event.repository.name }}
         GH_SCHEDULED_BUILD: ${{ github.event_name == 'schedule' }}
         GH_FORCED_BUILD: ${{ github.event_name == 'workflow_dispatch' }}
+        GH_RE_BUILD: ${{ github.run_attempt > 1 }}
         GH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         
         AU_VERSION: ''
@@ -58,6 +59,11 @@ jobs:
       shell: powershell
       run: |
         $ErrorActionPreference = 'Continue'
+
+        "Build info"
+        '  {0,-20} {1}' -f 'SCHEDULED BUILD:', ($Env:GH_SCHEDULED_BUILD -eq 'true')
+        '  {0,-20} {1}' -f 'FORCED BUILD:'   , ($Env:GH_FORCED_BUILD    -eq 'true')
+        '  {0,-20} {1}' -f 'RE BUILD:'       , ($Env:GH_RE_BUILD        -eq 'true')
 
         if ($Env:GH_REPOSITORY_NAME -like '*test*') { ./test_all.ps1 "random $Env:au_test_groups"; return }
 
