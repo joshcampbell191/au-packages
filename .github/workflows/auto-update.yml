@@ -10,8 +10,7 @@ on:
 
 jobs:
   auto-update:
-    uses: ./.github/workflows/templates/auto-update.yml    
-    environment: Chocolatey
+    uses: ./.github/workflows/templates/auto-update.yml
     with:
       au_push: true
 
@@ -21,7 +20,7 @@ jobs:
       
       commit_message: ${{ github.event.head_commit.message }}
       user_repository: ${{ github.repository }}
-      
+
       gist_id: 1bef29d6b69a03cb02702cbfb67e106e
       gist_id_test: 8aaa677a197c99e5eca431489a964ace
     secrets:
