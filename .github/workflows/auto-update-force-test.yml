@@ -42,7 +42,9 @@ jobs:
         GH_SCHEDULED_BUILD: ${{ github.event_name == 'schedule' }}
         GH_FORCED_BUILD: ${{ github.event_name == 'workflow_dispatch' }}
         GH_RE_BUILD: ${{ github.run_attempt > 1 }}
+        GH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         
+        AU_PUSH: false
         AU_TEST_GROUPS: 1
 
         GH_API_KEY: ${{ secrets.GH_API_KEY }}
