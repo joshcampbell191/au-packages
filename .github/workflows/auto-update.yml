@@ -17,9 +17,6 @@ jobs:
         uses: actions/checkout@v3
 
   auto-update:
-    runs-on: windows-latest
-    environment: Chocolatey
-
     # Auto Update
     uses: ./.github/workflows/templates/auto-update.yml
     with:
