@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  auto-update:
+  force-test:
     runs-on: windows-latest
     environment: Chocolatey
     steps:
