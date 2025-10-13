@@ -19,6 +19,7 @@ jobs:
       forced_build: ${{ github.event_name == 'workflow_dispatch' }}
       re_build: ${{ github.run_attempt > 1 }}
       
+      workflow_name: ${{ github.workflow }}
       commit_message: ${{ github.event.head_commit.message }}
       user_repository: ${{ github.repository }}
 

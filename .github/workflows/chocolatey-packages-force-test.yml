@@ -6,104 +6,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  force-test:
-    runs-on: windows-latest
-    environment: Chocolatey
-    steps:
-    # Checkout Repository
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+  auto-update:
+    # Auto Update
+    uses: ./.github/workflows/auto-update.yml
+    with:
+      au_push: false
 
-    # Initialize
-    - name: Initialize
-      run: |
-        git config --global user.email "chocolatey@realdimensions.net"
-        git config --global user.name "Chocolatey"
-        git config --global core.safecrlf false
+      scheduled_build: ${{ github.event_name == 'schedule' }}
+      forced_build: ${{ github.event_name == 'workflow_dispatch' }}
+      re_build: ${{ github.run_attempt > 1 }}
+      
+      workflow_name: ${{ github.workflow }}
+      commit_message: ${{ github.event.head_commit.message }}
+      user_repository: ${{ github.repository }}
 
-    # Install
-    - name: Install
-      env:
-        AU_VERSION: ''
-      shell: powershell
-      run: |
-        Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version | fl Caption, OSArchitecture, Version
-        $PSVersionTable
-        git --version
-        choco --version
-
-        git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
-        . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
-
-    # Build
-    - name: Build
-      env:
-        GH_WORKFLOW_NAME: ${{ github.workflow }}
-        GH_SCHEDULED_BUILD: ${{ github.event_name == 'schedule' }}
-        GH_FORCED_BUILD: ${{ github.event_name == 'workflow_dispatch' }}
-        GH_RE_BUILD: ${{ github.run_attempt > 1 }}
-        GH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-        
-        AU_PUSH: false
-        AU_TEST_GROUPS: 1
-
-        GH_API_KEY: ${{ secrets.GH_API_KEY }}
-        GH_USER_REPO: ${{ github.repository }}
-
-        API_KEY: ${{ secrets.API_KEY }}
-
-        GIST_ID: 1bef29d6b69a03cb02702cbfb67e106e
-        GIST_ID_TEST: 8aaa677a197c99e5eca431489a964ace
-      shell: powershell
-      run: |
-        $ErrorActionPreference = 'Continue'
-
-        "Build info"
-        '  {0,-20} {1}' -f 'SCHEDULED BUILD:', ($Env:GH_SCHEDULED_BUILD -eq 'true')
-        '  {0,-20} {1}' -f 'FORCED BUILD:'   , ($Env:GH_FORCED_BUILD    -eq 'true')
-        '  {0,-20} {1}' -f 'RE BUILD:'       , ($Env:GH_RE_BUILD        -eq 'true')
-
-        if ($Env:GH_WORKFLOW_NAME -like '*test*') { ./test_all.ps1 "random $Env:au_test_groups"; return }
-
-        if ( ($Env:GH_SCHEDULED_BUILD -ne 'true') -and ($Env:GH_FORCED_BUILD -ne 'true') ) {
-            switch -regex ($Env:GH_COMMIT_MESSAGE)
-            {
-                '\[AU (.+?)\]'   { $forced = $Matches[1] }
-
-                '\[PUSH (.+?)\]' {
-                    $packages = $Matches[1] -split ' '
-                    Write-Host "PUSHING PACKAGES: $packages"
-                    foreach ($package in $packages) {
-                        Write-Host ("{0}`n{1}`n" -f ('-'*60), "PACKAGE: $package")
-                        $package_dir = ls -recurse | ? { $_.Name -eq "$package.nuspec"} | select -First 1 | % Directory
-                        if (!$package_dir) { Write-Warning "Can't find package '$package'"; continue }
-                        pushd $package_dir
-                          if (Test-Path update.ps1 -ea 0) { ./update.ps1 }
-                          choco pack; Push-Package;
-                        popd
-                    }
-                    return
-                }
-            }
-        }
-
-        ./update_all.ps1 -ForcedPackages $forced
-        7z a au_temp.zip $Env:TEMP\chocolatey\au\*
-
-    # Upload Build Artifacts
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts
-        path: |
-          update_info.xml
-          Update-AUPackages.md
-          au_temp.zip
-
-    # Upload Test Artifacts
-    - name: Upload Test Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-artifacts
-        path: |
-          Update-Force-Test-*.md
+      gist_id: 1bef29d6b69a03cb02702cbfb67e106e
+      gist_id_test: 8aaa677a197c99e5eca431489a964ace
+    secrets:
+      personal_access_token: ${{ secrets.GH_API_KEY }}
+      chocolatey_api_key: ${{ secrets.API_KEY }}

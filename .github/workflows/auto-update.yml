@@ -33,6 +33,11 @@ on:
         required: false
         type: boolean
         default: false
+      workflow_name:
+        description: 'The name of the workflow triggering the build (default: empty)'
+        required: false
+        type: string
+        default: ''
       commit_message:
         description: 'The commit message that triggered the workflow (default: empty)'
         required: false
@@ -99,6 +104,7 @@ jobs:
     # Build
     - name: Build
       env:
+        GH_WORKFLOW_NAME: ${{ inputs.workflow_name }}
         GH_COMMIT_MESSAGE: ${{ inputs.commit_message }}
         
         AU_PUSH: ${{ inputs.au_push }}
