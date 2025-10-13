@@ -54,11 +54,9 @@ on:
       personal_access_token:
         description: 'GitHub Personal Access Token with repo permissions'
         required: true
-        type: string
       chocolatey_api_key:
         description: 'Chocolatey API key for pushing packages'
         required: true
-        type: string
 
 jobs:
   auto_update:
