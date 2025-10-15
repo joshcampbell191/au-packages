@@ -18,35 +18,11 @@ on:
         required: false
         type: boolean
         default: true
-      scheduled_build:
-        description: 'Whether this is a scheduled build (default: false)'
-        required: false
-        type: boolean
-        default: false
-      forced_build:
-        description: 'Whether this is a forced build (default: false)'
-        required: false
-        type: boolean
-        default: false
-      re_build:
-        description: 'Whether this is a re-build (default: false)'
-        required: false
-        type: boolean
-        default: false
       workflow_name:
         description: 'The name of the workflow triggering the build (default: empty)'
         required: false
         type: string
         default: ''
-      commit_message:
-        description: 'The commit message that triggered the workflow (default: empty)'
-        required: false
-        type: string
-        default: ''
-      user_repository:
-        description: 'GitHub user/repository (default: current repository)'
-        required: true
-        type: string
       gist_id:
         description: 'Gist ID for storing package update information'
         required: true
@@ -83,9 +59,6 @@ jobs:
     - name: Install
       env:
         AU_VERSION: ${{ inputs.au_version }}
-        GH_SCHEDULED_BUILD: ${{ inputs.scheduled_build }}
-        GH_FORCED_BUILD: ${{ inputs.forced_build }}
-        GH_RE_BUILD: ${{ inputs.re_build }}
       shell: powershell
       run: |
         Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version | fl Caption, OSArchitecture, Version
@@ -96,22 +69,24 @@ jobs:
         git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
         . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
 
-        "Build info"
-        '  {0,-20} {1}' -f 'SCHEDULED BUILD:', ($Env:GH_SCHEDULED_BUILD -eq 'true')
-        '  {0,-20} {1}' -f 'FORCED BUILD:'   , ($Env:GH_FORCED_BUILD    -eq 'true')
-        '  {0,-20} {1}' -f 'RE BUILD:'       , ($Env:GH_RE_BUILD        -eq 'true')
-
     # Build
     - name: Build
       env:
         GH_WORKFLOW_NAME: ${{ inputs.workflow_name }}
-        GH_COMMIT_MESSAGE: ${{ inputs.commit_message }}
+        
+        GH_SCHEDULED_BUILD: ${{ github.event_name == 'schedule' }}
+        GH_FORCED_BUILD: ${{ github.event_name == 'workflow_dispatch' }}
+        GH_RE_BUILD: ${{ github.run_attempt > 1 }}
+
+        GH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        GH_RUN_ID: ${{ github.run_id }}
         
         AU_PUSH: ${{ inputs.au_push }}
         AU_TEST_GROUPS: ${{ inputs.au_test_groups }}
 
+        GH_RUN_ID: ${{ github.run_id }}
         GH_API_KEY: ${{ secrets.personal_access_token }}
-        GH_USER_REPO: ${{ inputs.user_repository }}
+        GH_USER_REPO: ${{ github.repository }}
 
         API_KEY: ${{ secrets.chocolatey_api_key }}
 
@@ -120,6 +95,11 @@ jobs:
       shell: powershell
       run: |
         $ErrorActionPreference = 'Continue'
+
+        "Build info"
+        '  {0,-20} {1}' -f 'SCHEDULED BUILD:', ($Env:GH_SCHEDULED_BUILD -eq 'true')
+        '  {0,-20} {1}' -f 'FORCED BUILD:'   , ($Env:GH_FORCED_BUILD    -eq 'true')
+        '  {0,-20} {1}' -f 'RE BUILD:'       , ($Env:GH_RE_BUILD        -eq 'true')
 
         if ($Env:GH_WORKFLOW_NAME -like '*test*') { ./test_all.ps1 "random $Env:au_test_groups"; return }
 
