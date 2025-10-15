@@ -1,4 +1,4 @@
-[![](https://ci.appveyor.com/api/projects/status/github/joshcampbell191/chocolatey-packages?svg=true)](https://ci.appveyor.com/project/joshcampbell191/chocolatey-packages)
+[![](https://ci.appveyor.com/api/projects/status/github/joshcampbell191/au-packages?svg=true)](https://ci.appveyor.com/project/joshcampbell191/au-packages)
 [Update status](https://gist.github.com/joshcampbell191/1bef29d6b69a03cb02702cbfb67e106e)
 [![](http://transparent-favicon.info/favicon.ico)](#)
 [chocolatey/jcampbell](https://chocolatey.org/profiles/jcampbell)
