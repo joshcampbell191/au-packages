@@ -1,4 +1,5 @@
-[![](https://ci.appveyor.com/api/projects/status/github/joshcampbell191/au-packages?svg=true)](https://ci.appveyor.com/project/joshcampbell191/au-packages)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/joshcampbell191/au-packages?svg=true)](https://ci.appveyor.com/project/joshcampbell191/au-packages)
+[![AU Packages](https://github.com/joshcampbell191/au-packages/actions/workflows/au-packages.yml/badge.svg)](https://github.com/joshcampbell191/au-packages/actions/workflows/au-packages.yml)
 [Update status](https://gist.github.com/joshcampbell191/1bef29d6b69a03cb02702cbfb67e106e)
 [![](http://transparent-favicon.info/favicon.ico)](#)
 [chocolatey/jcampbell](https://chocolatey.org/profiles/jcampbell)
