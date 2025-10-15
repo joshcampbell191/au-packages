@@ -84,7 +84,6 @@ jobs:
         AU_PUSH: ${{ inputs.au_push }}
         AU_TEST_GROUPS: ${{ inputs.au_test_groups }}
 
-        GH_RUN_ID: ${{ github.run_id }}
         GH_API_KEY: ${{ secrets.personal_access_token }}
         GH_USER_REPO: ${{ github.repository }}
 
