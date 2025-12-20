@@ -61,7 +61,7 @@ jobs:
     - name: Install
       env:
         AU_VERSION: ${{ inputs.au_version }}
-      shell: powershell
+      shell: pwsh7
       run: |
         Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version | fl Caption, OSArchitecture, Version
         $PSVersionTable
@@ -93,7 +93,7 @@ jobs:
 
         GIST_ID: ${{ inputs.gist_id }}
         GIST_ID_TEST: ${{ inputs.gist_id_test }}
-      shell: powershell
+      shell: pwsh7
       run: |
         $ErrorActionPreference = 'Continue'
 
