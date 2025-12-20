@@ -3,14 +3,14 @@ param([switch] $Force)
 
 Import-Module AU
 
-$domain   = 'https://github.com'
+$domain = 'https://github.com'
 $releases = "$domain/mscrmtools/xrmtoolbox/releases"
 $latestRelease = "$releases/latest"
 $expandedAssets = "$releases/expanded_assets"
 
 function global:au_SearchReplace {
   @{
-    ".\legal\VERIFICATION.txt" = @{
+    ".\legal\VERIFICATION.txt"      = @{
       "(?i)(^\s*location on\:?\s*)\<.*\>" = "`${1}<$($Latest.ReleaseURL)>"
       "(?i)(^\s*software.*)\<.*\>"        = "`${1}<$($Latest.URL64)>"
       "(?i)(^\s*checksum\s*type\:).*"     = "`${1} $($Latest.ChecksumType64)"
@@ -26,7 +26,7 @@ function global:au_SearchReplace {
 function global:au_BeforeUpdate { Get-RemoteFiles -Purge -NoSuffix }
 
 function global:au_GetLatest {
-  $latestRelease = Invoke-WebRequest -Uri $latestRelease -Headers @{ "Accept" = "application/json" } | ConvertFrom-Json
+  $latestRelease = Invoke-WebRequest -Uri $latestRelease -Headers @{ "Accept" = "application/json" } -UseBasicParsing | ConvertFrom-Json
 
   $tagName = $latestRelease.tag_name
   $download_page = Invoke-WebRequest -Uri "$expandedAssets/$tagName" -UseBasicParsing
