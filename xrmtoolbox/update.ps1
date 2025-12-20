@@ -26,13 +26,13 @@ function global:au_SearchReplace {
 function global:au_BeforeUpdate { Get-RemoteFiles -Purge -NoSuffix }
 
 function global:au_GetLatest {
-  $latestRelease = Invoke-WebRequest -Uri $latestRelease -Headers @{ "Accept" = "application/json" } -UseBasicParsing | ConvertFrom-Json
+  $latestRelease = Invoke-RestMethod -Uri $latestRelease -Headers @{ "Accept" = "application/json" }
 
   $tagName = $latestRelease.tag_name
   $download_page = Invoke-WebRequest -Uri "$expandedAssets/$tagName" -UseBasicParsing
 
   $re = 'XrmToolbox\.zip$'
-  $url = $download_page.Links | ? href -Match $re | Select -First 1 -Expand href
+  $url = $download_page.Links | Where-Object href -Match $re | Select-Object -First 1 -Expand href
 
   $version = $tagName.Substring(1)
 
