@@ -3,11 +3,6 @@ param([switch] $Force)
 
 Import-Module AU
 
-$domain = 'https://github.com'
-$releases = "$domain/mscrmtools/xrmtoolbox/releases"
-$latestRelease = "$releases/latest"
-$expandedAssets = "$releases/expanded_assets"
-
 function global:au_SearchReplace {
   @{
     ".\legal\VERIFICATION.txt"      = @{
@@ -26,20 +21,16 @@ function global:au_SearchReplace {
 function global:au_BeforeUpdate { Get-RemoteFiles -Purge -NoSuffix }
 
 function global:au_GetLatest {
-  $latestRelease = Invoke-RestMethod -Uri $latestRelease -Headers @{ "Accept" = "application/json" }
+  $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/mscrmtools/xrmtoolbox/releases/latest" -UseBasicParsing
 
-  $tagName = $latestRelease.tag_name
-  $download_page = Invoke-WebRequest -Uri "$expandedAssets/$tagName" -UseBasicParsing
-
-  $re = 'XrmToolbox\.zip$'
-  $url = $download_page.Links | Where-Object href -Match $re | Select-Object -First 1 -Expand href
-
-  $version = $tagName.Substring(1)
+  $version = $latestRelease.tag_name.Replace('v', '');
+  $url64 = ($LatestRelease.assets | Where-Object {$_.name.EndsWith("XrmToolbox\.zip")}).browser_download_url
+  $releaseUrl = $latestRelease.html_url;
 
   return @{
     Version    = $version
-    URL64      = $domain + $url
-    ReleaseURL = "$releases/tag/$tagName"
+    URL64      = $url64
+    ReleaseURL = $releaseUrl
   }
 }
 
