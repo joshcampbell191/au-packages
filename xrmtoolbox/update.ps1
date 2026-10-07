@@ -24,7 +24,7 @@ function global:au_GetLatest {
   $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/mscrmtools/xrmtoolbox/releases/latest" -UseBasicParsing
 
   $version = $latestRelease.tag_name.Replace('v', '');
-  $url64 = ($LatestRelease.assets | Where-Object {$_.name.EndsWith("XrmToolbox\.zip")}).browser_download_url
+  $url64 = ($latestRelease.assets | Where-Object {$_.name.EndsWith("XrmToolbox\.zip")}).browser_download_url
   $releaseUrl = $latestRelease.html_url;
 
   return @{
